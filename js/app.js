@@ -54,8 +54,10 @@ $(function(){
       }
     }
   });
+
   //< ========= drag and drop  Next U ========>
   function crear() {
+    if($('.btn-reinicio').text() != 'Iniciar' ){
     var images = [
       "image/1.png",
       "image/2.png",
@@ -67,19 +69,20 @@ $(function(){
     ]
     var columnas = $(".panel-tablero div");
   
-    for (var i = 0; i < columnas.length; i++) {
+    for (var i = 0; i <= columnas.length; i++) {
       for (var j = 0; j < images.length; j++) {
         var img = Math.floor(Math.random() * (4 - 1 + 1));
-        if($('img').length < 49){
-          if($('[class="col-'+[i+1]+'"] img').length < 7){
-            $('[class="col-'+[i+1]+'"]').append("<img src='" + images[img] +
+        if($('[class="col-'+[i]+'"] img').length < 7){
+          $('[class="col-'+[i]+'"]').prepend("<img src='" + images[img] +
           "' class='elemento' width='100px' height='100px' id='"+[i+1]+[j+1]+"'>");
+          
           draganddrop();
-          }
+          
         }
       }
     }
   }
+}
   
   function draganddrop(){
     var columnas = $(".panel-tablero div");
@@ -94,7 +97,7 @@ $(function(){
           revert: "invalid",
           containment: ".panel-tablero",
           scroll: false,
-          grid: [120, 90],
+          grid: [160, 100],
           start: function (event, ui) {
             start_left = ui.position.left;
             start_top = ui.position.top;
@@ -130,9 +133,8 @@ $(function(){
             $("#score-text").text((movimientos + 1)*100);
             
             eliminar();
-            crear();
           }
-        }, 2000);
+        });
       }
     }
   }
@@ -171,22 +173,59 @@ $(function(){
   }
   //<=========== fin Drag and Drop =========>
   
-  function eliminar(){
-    for(var i = 1; i<=7;i++){
-      for(var z=1;z<=7;z++){
-        if(($('.col-'+[i]+' img').eq(z).attr('src') == $('.col-'+[i+1]+' img').eq(z).attr('src')) && ($('.col-'+[i]+' img').eq(z).attr('src') == $('.col-'+[i+2]+' img').eq(z).attr('src'))){
-          $('.col-'+[i]+' img').eq(z).effect('pulsate',2000).remove();
-          $('.col-'+[i+1]+' img').eq(z).effect('pulsate',2000).remove();
-          $('.col-'+[i+2]+' img').eq(z).effect('pulsate',2000).remove();
-          crear();
-          console.log($('.col-'+[i]+' img').eq(z).attr('src'));
+  function eliminar() {
+    for (var i = 1; i <= 7; i++) {
+      for (var z = 0; z <= 6; z++) {
+        var dulce1 = $($('.col-' + [i]).find("img")[z]);
+        var dulce2 = $($('.col-' + [i]).find("img")[z + 1]);
+        var dulce3 = $($('.col-' + [i]).find("img")[z + 2]);
+        var dulce4 = $($('.col-' + [i + 1]).find("img")[z]);
+        var dulce5 = $($('.col-' + [i + 2]).find("img")[z]);
+        if (dulce1.attr('src') == dulce2.attr('src')
+          && dulce2.attr('src') == dulce3.attr('src')) {
+          dulce1.effect('pulsate',function(){
+            $(this).remove();
+            crear();
+          });
+          dulce2.effect('pulsate',function(){
+            $(this).remove();
+            crear();
+          });
+          dulce3.effect('pulsate',function(){
+            $(this).remove();
+            crear();
+          });
+          
+          console.log(dulce1.attr('src'), dulce2.attr('src'),dulce3.attr('src'));
+          
+          
+        }else if(dulce1.attr('src') == dulce4.attr('src')
+          && dulce4.attr('src') == dulce5.attr('src')){
+            dulce1.effect('pulsate',function(){
+              $(this).remove();
+              crear();
+            });
+            dulce4.effect('pulsate',function(){
+              $(this).remove();
+              crear();
+            });
+            dulce5.effect('pulsate',function(){
+              $(this).remove();
+              crear();
+            });
+            
+              console.log(dulce1.attr('src'), dulce4.attr('src'),dulce5.attr('src'));
+            
+          
         }
-        
+    
       }
-      
+    
     }
+    
   }
-  
+
+
   function estilos(){
     $('img').css({'height': '96px'});
   }
