@@ -140,19 +140,20 @@ $(function () {
     }
   }
 
-  function validarMovimiento(dropE, dragE, start_left, stop_left, start_top, stop_top) {
+  function validarMovimiento(drop, drag, start_left, stop_left, start_top, stop_top) {
 
-    if (start_top > stop_top) {
-      cambiar($(dropE), $(dragE));
-    } else if (start_top < stop_top) {
-      cambiar($(dropE), $(dragE));
-    } else if (start_left < stop_left) {
-      cambiar($(dropE), $(dragE));
-    } else if (start_left > stop_left) {
-      cambiar($(dropE), $(dragE));
+    var coldp = drop.parent().index();
+    var coldg = drag.parent().index();
+    var res = (coldg - coldp);
+    var res2 = drag.index() - drop.index();
+    if (res == 0 || res == 1 || res == -1) {
+    if (res2 == 0 || res2 == 1 || res2 == -1) {
+    cambiar(drop, drag);
     }
-
-  }
+    }
+    
+    }
+    
 
   function cambiar(dropE, dragE) {
     if ($(dropE).next().length != 0) {
