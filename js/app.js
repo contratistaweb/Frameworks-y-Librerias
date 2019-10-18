@@ -114,11 +114,8 @@ $(function () {
             "ui-droppable-hover": "ui-state-hover"
           },
           accept: function (ui) {
-            if ((start_left < stop_left) || (start_left > stop_left) || (start_top < stop_top) || (
-              start_top > stop_top)) {
-              return true;
-            }
-            return false;
+
+            return true;
           },
           drop: function (event, ui) {
 
@@ -140,20 +137,142 @@ $(function () {
     }
   }
 
-  function validarMovimiento(drop, drag, start_left, stop_left, start_top, stop_top) {
 
+  function validarMovimiento(drop, drag, start_left, stop_left, start_top, stop_top) {
     var coldp = drop.parent().index();
     var coldg = drag.parent().index();
     var res = (coldg - coldp);
     var res2 = drag.index() - drop.index();
+    var flag = true;
+    if (coldp == coldg) {
+      if (drop.index() > drag.index()) {
+        var pasa = 0;
+        var p1 = drag.parent().children()[drop.index() + 1];
+        var p2 = drag.parent().children()[drop.index() + 2];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+
+        p1 = $(drop.parent().parent().children()[coldp + 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp - 1]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        p1 = $(drop.parent().parent().children()[coldp + 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp + 2]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        p1 = $(drop.parent().parent().children()[coldp - 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp - 2]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        if (pasa == 0) {
+          return;
+        }
+      } else {
+        var pasa = 0;
+        var p1 = drag.parent().children()[drop.index() - 1];
+        var p2 = drag.parent().children()[drop.index() - 2];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        p1 = $(drop.parent().parent().children()[coldp + 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp - 1]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        p1 = $(drop.parent().parent().children()[coldp + 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp + 2]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        p1 = $(drop.parent().parent().children()[coldp - 1]).children()[drop.index()];
+        p2 = $(drop.parent().parent().children()[coldp - 2]).children()[drop.index()];
+        if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+          pasa += 1;
+        }
+
+        if (pasa == 0) {
+          return;
+        }
+      }
+    }
+
+    if (coldp > coldg) {
+      var pasa = 0;
+      var p1 = $(drop.parent().parent().children()[coldp + 1]).children()[drop.index()];//[drop.index() + 1];
+      var p2 = $(drop.parent().parent().children()[coldp + 2]).children()[drop.index()];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 2];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 2];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 1];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+
+      if (pasa == 0) {
+        return;
+      }
+    }
+
+    if (coldp < coldg) {
+      var pasa = 0;
+      var p1 = $(drop.parent().parent().children()[coldp - 1]).children()[drop.index()];//[drop.index() + 1];
+      var p2 = $(drop.parent().parent().children()[coldp - 2]).children()[drop.index()];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 2];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 2];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+      p1 = $(drop.parent().parent().children()[coldp]).children()[drop.index() - 1];
+      p2 = $(drop.parent().parent().children()[coldp]).children()[drop.index() + 1];
+      if ($(p1).attr("src") == drag.attr("src") && $(p2).attr("src") == drag.attr("src")) {
+        pasa += 1;
+      }
+
+      if (pasa == 0) {
+        return;
+      }
+    }
+
+
+
+
     if (res == 0 || res == 1 || res == -1) {
-    if (res2 == 0 || res2 == 1 || res2 == -1) {
-    cambiar(drop, drag);
+      if (res2 == 0 || res2 == 1 || res2 == -1) {
+        cambiar(drop, drag);
+      }
     }
-    }
-    
-    }
-    
+
+  }
 
   function cambiar(dropE, dragE) {
     if ($(dropE).next().length != 0) {
@@ -201,7 +320,7 @@ $(function () {
       }
 
     }
-/* Elimina todos los dulces */
+    /* Elimina todos los dulces */
     $(".eliminar").effect('pulsate', function () {
       $(this).remove();
       crear();
@@ -209,10 +328,10 @@ $(function () {
 
   }
 
-/*
-  function estilos() {
-    $('img').css({ 'height': '96px' });
-  }
-*/
+  /*
+    function estilos() {
+      $('img').css({ 'height': '96px' });
+    }
+  */
   //<---   fin funcion principal   --->
 }());
